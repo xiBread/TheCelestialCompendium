@@ -2,20 +2,15 @@
 import { Search as SearchIcon } from "lucide-astro";
 ---
 
-<dialog class="z-50">
-	<div
-		id="overlay"
-		class="fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40"
-		xyz="fade"
-	>
+<dialog id="search" class="z-50">
+	<div class="overlay fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40" xyz="fade">
 	</div>
 
 	<div
 		class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]"
 	>
 		<div
-			id="panel"
-			class="mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
+			class="panel mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
 			xyz="fade small-1"
 		>
 			<div class="group relative h-12">
@@ -38,10 +33,10 @@ import { Search as SearchIcon } from "lucide-astro";
 <script>
 	import { $searchOpen } from "../lib/stores";
 
-	const dialog = document.querySelector("dialog")!;
+	const dialog = document.getElementById("search") as HTMLDialogElement;
 	const search = document.querySelector("input")!;
-	const overlay = document.getElementById("overlay")!;
-	const panel = document.getElementById("panel")!;
+	const overlay = document.querySelector("#search > .overlay")!;
+	const panel = document.querySelector("#search .panel")!;
 
 	function close() {
 		overlay.classList.add("xyz-out");
@@ -52,7 +47,7 @@ import { Search as SearchIcon } from "lucide-astro";
 			panel.classList.remove("xyz-out");
 
 			$searchOpen.set(false);
-		}, 200);
+		}, 250);
 	}
 
 	$searchOpen.listen((open) => {

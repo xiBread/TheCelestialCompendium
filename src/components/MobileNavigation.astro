@@ -1,14 +1,93 @@
 ---
-import { Menu } from "lucide-astro";
+import Header from "./Header.astro";
+import Navigation from "./Navigation.astro";
 ---
 
-<button
-	id="mobile-nav-btn"
-	class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/5"
-	type="button"
-	aria-label="Toggle navigation"
->
-	<Menu class="size-4 text-slate-900 dark:text-white" />
-</button>
+<dialog id="mobile-nav" class="fixed inset-0 z-40 lg:hidden">
+	<div
+		class="overlay fixed inset-0 top-14 h-dvh bg-slate-400/20 backdrop-blur-sm dark:bg-black/40"
+		xyz="fade"
+	>
+	</div>
 
-<!-- TODO -->
+	<div class="header" xyz="fade">
+		<Header />
+	</div>
+
+	<div
+		class="nav fixed bottom-0 left-0 top-14 h-[calc(100vh-3.5rem)] w-72 overflow-y-auto px-4 pb-4 pt-6 shadow-lg shadow-slate-900/10 ring-1 ring-slate-900/7.5 min-[416px]:max-w-sm sm:px-6 sm:pb-10 dark:bg-slate-950 dark:ring-slate-800"
+		xyz="left-100%"
+	>
+		<Navigation />
+	</div>
+</dialog>
+
+<script>
+	import { $mobileNavOpen } from "src/lib/stores";
+
+	const header = document.querySelector("header")!;
+	const dialog = document.getElementById("mobile-nav") as HTMLDialogElement;
+	const overlay = document.querySelector("#mobile-nav > .overlay")!;
+	const nav = document.querySelector("#mobile-nav .nav")!;
+
+	// TODO: clean up whatever this mess is (alpine?)
+
+	function close() {
+		overlay.classList.add("xyz-out");
+		header.classList.add("xyz-out");
+		nav.classList.add("xyz-out");
+
+		setTimeout(() => {
+			overlay.classList.remove("xyz-out");
+			header.classList.remove("xyz-out");
+			nav.classList.remove("xyz-out");
+
+			$mobileNavOpen.set(false);
+			dialog.open = false;
+			header.dataset.mobileNavOpen = "false";
+			document.documentElement.style.overflow = "auto";
+		}, 400);
+	}
+
+	$mobileNavOpen.listen((open) => {
+		if (open) {
+			dialog.open = true;
+			document.documentElement.style.overflow = "hidden";
+			header.dataset.mobileNavOpen = "true";
+
+			overlay.classList.add("xyz-in");
+			header.classList.add("xyz-in");
+			nav.classList.add("xyz-in");
+
+			setTimeout(() => {
+				overlay.classList.remove("xyz-in");
+				header.classList.remove("xyz-in");
+			}, 200);
+
+			setTimeout(() => {
+				nav.classList.remove("xyz-in");
+			}, 500);
+		} else {
+			close();
+		}
+	});
+
+	// TODO: handle outside clicks
+</script>
+
+<style>
+	dialog {
+		--xyz-in-ease: theme("transitionTimingFunction.out");
+		--xyz-out-ease: theme("transitionTimingFunction.in");
+
+		--xyz-duration: 300ms;
+	}
+
+	dialog > .nav {
+		--xyz-in-ease: theme("transitionTimingFunction.in-out");
+		--xyz-out-ease: theme("transitionTimingFunction.in-out");
+
+		--xyz-in-duration: 500ms;
+		--xyz-out-duration: 300ms;
+	}
+</style>

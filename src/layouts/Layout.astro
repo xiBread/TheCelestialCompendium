@@ -6,6 +6,7 @@ import Themes from "astro-themes";
 import Contents from "../components/Contents.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import MobileNavigation from "../components/MobileNavigation.astro";
 import Navigation from "../components/Navigation.astro";
 import Search from "../components/Search.astro";
 
@@ -52,11 +53,13 @@ const title = Astro.props.title
 							</div>
 						</a>
 
-						<Navigation />
+						<Navigation class="hidden lg:mt-10 lg:block" />
 					</div>
 				</div>
 
-				<main class="min-w-0 max-w-2xl flex-auto py-16 lg:max-w-none lg:px-10 xl:px-16">
+				<main
+					class="min-w-0 max-w-2xl flex-auto px-4 py-16 sm:px-6 lg:max-w-none lg:px-10 xl:px-16"
+				>
 					<slot />
 
 					<Footer />
@@ -66,6 +69,7 @@ const title = Astro.props.title
 			</div>
 		</div>
 
+		<MobileNavigation />
 		<Search />
 	</body>
 </html>

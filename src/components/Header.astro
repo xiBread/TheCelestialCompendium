@@ -1,10 +1,10 @@
 ---
-import { Moon, Sun, Search as SearchIcon } from "lucide-astro";
-import MobileNavigation from "./MobileNavigation.astro";
+import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 ---
 
 <header
-	class="fixed inset-x-0 top-0 z-10 flex h-14 items-center justify-between gap-12 bg-white/[var(--bg-opacity-light)] px-4 backdrop-blur-sm transition sm:px-6 lg:left-72 lg:px-8 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur"
+	class="fixed inset-x-0 top-0 flex h-14 items-center justify-between gap-12 px-4 sm:px-6 lg:px-8"
+	data-mobile-nav-open="false"
 >
 	<div class="absolute inset-0 top-full h-px bg-slate-900/7.5 transition dark:bg-white/7.5"></div>
 
@@ -20,10 +20,17 @@ import MobileNavigation from "./MobileNavigation.astro";
 	</div>
 
 	<div class="flex items-center gap-5 lg:hidden">
-		<MobileNavigation />
+		<button
+			id="mobile-nav-btn"
+			class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
+			type="button"
+			aria-label="Toggle navigation"
+		>
+			<Menu class="size-4 text-slate-900 dark:text-white" />
+		</button>
 
 		<a href="/" aria-label="Home">
-			<div class="text-lg font-bold text-slate-900 dark:text-white">
+			<div class="font-bold text-slate-900 sm:text-lg dark:text-white">
 				The Celestial Compendium
 			</div>
 		</a>
@@ -52,11 +59,12 @@ import MobileNavigation from "./MobileNavigation.astro";
 </header>
 
 <script>
-	import { $searchOpen } from "../lib/stores";
+	import { $mobileNavOpen, $searchOpen } from "../lib/stores";
 
 	const themeToggle = document.getElementById("theme-toggle");
 	const header = document.querySelector("header");
 	const searchButtons = document.querySelectorAll("button.search");
+	const menuButtons = document.querySelectorAll("#mobile-nav-btn");
 
 	themeToggle?.addEventListener("click", () => {
 		const theme = document.documentElement.getAttribute("data-theme") ?? "dark";
@@ -79,4 +87,20 @@ import MobileNavigation from "./MobileNavigation.astro";
 	for (const button of searchButtons) {
 		button.addEventListener("click", () => $searchOpen.set(true));
 	}
+
+	for (const button of menuButtons) {
+		button.addEventListener("click", () => {
+			$mobileNavOpen.set(!$mobileNavOpen.get());
+		});
+	}
 </script>
+
+<style>
+	header[data-mobile-nav-open="true"] {
+		@apply z-50 bg-white dark:bg-slate-950;
+	}
+
+	header[data-mobile-nav-open="false"] {
+		@apply z-10 bg-white/[var(--bg-opacity-light)] backdrop-blur-sm transition lg:left-72 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur;
+	}
+</style>

@@ -2,6 +2,10 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { remToPx } from "../lib/util";
 
+export interface Props {
+	class?: string;
+}
+
 const { pathname } = Astro.url;
 
 const positions = [
@@ -29,14 +33,14 @@ const groups = entries.reduce<Record<string, CollectionEntry<"all">[]>>((all, en
 }, {});
 ---
 
-<nav class="hidden lg:mt-8 lg:block">
+<nav class={Astro.props.class}>
 	<ul role="list">
 		{
 			Object.entries(groups).map(([section, entries]) => {
 				const activeIndex = entries.findIndex((entry) => `/${entry.slug}` === pathname);
 
 				return (
-					<li class="relative mt-6 md:first:mt-0">
+					<li class="relative mt-6 first:mt-0">
 						<h2
 							class:list={[
 								"text-sm font-semibold capitalize",
