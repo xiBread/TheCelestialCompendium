@@ -38,21 +38,17 @@ const arrowClass = [
 	arrow === "left" && "mr-1 rotate-180",
 	arrow === "right" && "ml-1",
 ];
+
+const Tag = typeof props.href === "undefined" ? "button" : "a";
 ---
 
 {
-	// TODO: find a way to deduplicate this
-	typeof props.href === "undefined" ? (
-		<button class:list={[button({ variant }), className]} {...props}>
+	(
+		// @ts-ignore
+		<Tag class:list={[button({ variant }), className]} {...props}>
 			{arrow === "left" && <MoveRight class:list={arrowClass} />}
 			<slot />
 			{arrow === "right" && <MoveRight class:list={arrowClass} />}
-		</button>
-	) : (
-		<a class={className} {...props}>
-			{arrow === "left" && <MoveRight class:list={arrowClass} />}
-			<slot />
-			{arrow === "right" && <MoveRight class:list={arrowClass} />}
-		</a>
+		</Tag>
 	)
 }
