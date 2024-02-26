@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Button from "./Button.astro";
+
+export interface Props {
+	page: CollectionEntry<"all">;
+	previous?: boolean;
+}
+
+const { page, previous = false } = Astro.props;
+
+const href = `/${page.slug}`;
+const type = previous ? "Previous" : "Next";
+const label = `${type}: ${page.data.title || page.data.name}`;
+---
+
+<div class:list={["flex flex-col gap-3", previous ? "items-start" : "ml-auto items-end"]}>
+	<Button title={label} {href} arrow={previous ? "left" : "right"} variant="secondary">
+		{type}
+	</Button>
+
+	<a
+		class="text-base font-semibold text-slate-900 transition hover:text-slate-600 dark:text-white dark:hover:text-slate-300"
+		{href}
+		tab-index={-1}
+		aria-hidden="true"
+	>
+		{page.data.title || page.data.name}
+	</a>
+</div>

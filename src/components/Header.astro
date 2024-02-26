@@ -1,0 +1,82 @@
+---
+import { Moon, Sun, Search as SearchIcon } from "lucide-astro";
+import MobileNavigation from "./MobileNavigation.astro";
+---
+
+<header
+	class="fixed inset-x-0 top-0 z-10 flex h-14 items-center justify-between gap-12 bg-white/[var(--bg-opacity-light)] px-4 backdrop-blur-sm transition sm:px-6 lg:left-72 lg:px-8 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur"
+>
+	<div class="absolute inset-0 top-full h-px bg-slate-900/7.5 transition dark:bg-white/7.5"></div>
+
+	<div class="hidden lg:block lg:max-w-md lg:flex-auto">
+		<button
+			class="search hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-slate-500 ring-1 ring-slate-900/10 transition-[box-shadow] hover:ring-slate-900/20 lg:flex dark:bg-white/5 dark:text-slate-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20"
+			type="button"
+		>
+			<SearchIcon class="ml-1 size-3.5 text-current" />
+			Search&hellip;
+			<kbd class="ml-auto mr-0.5 text-2xs text-slate-400 dark:text-slate-500">/</kbd>
+		</button>
+	</div>
+
+	<div class="flex items-center gap-5 lg:hidden">
+		<MobileNavigation />
+
+		<a href="/" aria-label="Home">
+			<div class="text-lg font-bold text-slate-900 dark:text-white">
+				The Celestial Compendium
+			</div>
+		</a>
+	</div>
+
+	<div class="flex gap-4">
+		<div class="contents lg:hidden">
+			<button
+				class="search flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 lg:hidden dark:hover:bg-white/5"
+				type="button"
+				aria-label="Search entries"
+			>
+				<SearchIcon class="size-4 text-slate-900 dark:text-white" />
+			</button>
+		</div>
+
+		<button
+			id="theme-toggle"
+			type="button"
+			class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
+		>
+			<Sun class="size-4 text-slate-900 dark:hidden" />
+			<Moon class="hidden size-4 text-white dark:block" />
+		</button>
+	</div>
+</header>
+
+<script>
+	import { $searchOpen } from "../lib/stores";
+
+	const themeToggle = document.getElementById("theme-toggle");
+	const header = document.querySelector("header");
+	const searchButtons = document.querySelectorAll("button.search");
+
+	themeToggle?.addEventListener("click", () => {
+		const theme = document.documentElement.getAttribute("data-theme") ?? "dark";
+		const detail = theme === "dark" ? "light" : "dark";
+
+		document.dispatchEvent(new CustomEvent("set-theme", { detail }));
+	});
+
+	addEventListener("scroll", () => {
+		let opacityLight = 0.5 + (scrollY / 72) * (0.9 - 0.5);
+		opacityLight = Math.max(0.5, Math.min(0.9, opacityLight));
+
+		let opacityDark = 0.2 + (scrollY / 72) * (0.8 - 0.2);
+		opacityDark = Math.max(0.2, Math.min(0.8, opacityDark));
+
+		header?.style.setProperty("--bg-opacity-light", `${opacityLight}`);
+		header?.style.setProperty("--bg-opacity-dark", `${opacityDark}`);
+	});
+
+	for (const button of searchButtons) {
+		button.addEventListener("click", () => $searchOpen.set(true));
+	}
+</script>

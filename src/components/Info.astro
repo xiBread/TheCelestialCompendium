@@ -1,0 +1,15 @@
+---
+import { Info as InfoIcon } from "lucide-astro";
+---
+
+<div
+	class="my-6 flex gap-2.5 rounded-2xl border border-indigo-500/20 bg-indigo-50/50 p-4 leading-6 text-indigo-900 dark:border-indigo-500/30 dark:bg-indigo-500/5 dark:text-indigo-300 dark:[--tw-prose-links-hover:theme(colors.indigo.400)] dark:[--tw-prose-links:theme(colors.white)]"
+>
+	<InfoIcon
+		class="mt-1.5 size-4 flex-none fill-indigo-500 text-white dark:fill-none dark:stroke-indigo-500"
+	/>
+
+	<div class="[&>:first-child]:mt-0 [&>:last-child]:mb-0">
+		<slot />
+	</div>
+</div>

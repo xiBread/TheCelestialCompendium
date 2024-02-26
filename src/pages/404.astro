@@ -1,0 +1,22 @@
+---
+import Button from "../components/Button.astro";
+import HeroPattern from "../components/HeroPattern.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+	<HeroPattern />
+
+	<div
+		class="mx-auto flex h-full max-w-xl flex-col items-center justify-center py-16 text-center"
+	>
+		<p class="text-sm font-semibold text-indigo-500">404</p>
+		<h1 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Entry not found</h1>
+
+		<p class="mt-2 text-base text-slate-600 dark:text-slate-400">
+			Sorry, we couldn't find the entry you're looking for.
+		</p>
+
+		<Button href="/" arrow="right" class="mt-8" onclick="history.back()"> Go back </Button>
+	</div>
+</Layout>

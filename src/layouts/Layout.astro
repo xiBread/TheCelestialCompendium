@@ -1,0 +1,71 @@
+---
+import "@animxyz/core";
+import "../app.css";
+
+import Themes from "astro-themes";
+import Contents from "../components/Contents.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Navigation from "../components/Navigation.astro";
+import Search from "../components/Search.astro";
+
+export interface Props {
+	title?: string;
+}
+
+const title = Astro.props.title
+	? `${Astro.props.title} - The Celestial Compendium`
+	: "The Celestial Compendium";
+---
+
+<html class="h-full scroll-pt-20" lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<meta name="generator" content={Astro.generator} />
+		<meta name="viewport" content="width=device-width" />
+
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://rsms.me/inter" />
+		<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+		<title>{title}</title>
+
+		<Themes defaultTheme="dark" />
+	</head>
+
+	<body class="flex min-h-full bg-white antialiased dark:bg-slate-950">
+		<div class="flex w-full flex-col">
+			<Header />
+
+			<div class="relative flex w-full flex-auto justify-center">
+				<div class="hidden lg:relative lg:block lg:flex-none">
+					<div class="absolute right-0 h-full w-px bg-slate-900/10 dark:bg-white/10">
+					</div>
+
+					<div
+						class="sticky top-0 h-dvh overflow-y-auto overflow-x-hidden px-6 pb-8 pt-4 lg:w-72"
+					>
+						<a class="hidden lg:block" href="/" aria-label="Home">
+							<div class="h-6 text-lg font-bold text-slate-900 dark:text-white">
+								The Celestial Compendium
+							</div>
+						</a>
+
+						<Navigation />
+					</div>
+				</div>
+
+				<main class="min-w-0 max-w-2xl flex-auto py-16 lg:max-w-none lg:px-10 xl:px-16">
+					<slot />
+
+					<Footer />
+				</main>
+
+				{Astro.url.pathname !== "/" && <Contents />}
+			</div>
+		</div>
+
+		<Search />
+	</body>
+</html>

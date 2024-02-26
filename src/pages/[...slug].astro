@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import HeroPattern from "../components/HeroPattern.astro";
+import Layout from "../layouts/Layout.astro";
+
+export interface Props {
+	entry: CollectionEntry<"all">;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	const entries = await getCollection("all");
+
+	return entries.map((entry) => {
+		const slug = entry.slug === "index" ? undefined : entry.slug;
+
+		return {
+			params: { slug },
+			props: { entry },
+		};
+	});
+};
+
+const { Content } = await Astro.props.entry.render();
+---
+
+<Layout>
+	<article class="flex flex-col pb-6 pt-12">
+		<div
+			class="prose flex-auto dark:prose-invert [html_:where(&>*)]:mx-auto [html_:where(&>*)]:max-w-2xl [html_:where(&>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&>*)]:lg:max-w-3xl [html_:where(&>*)]:xl:max-w-4xl"
+		>
+			<HeroPattern />
+			<Content />
+		</div>
+	</article>
+</Layout>

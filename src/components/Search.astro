@@ -1,0 +1,104 @@
+---
+import { Search as SearchIcon } from "lucide-astro";
+---
+
+<dialog class="z-50">
+	<div
+		id="overlay"
+		class="fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40"
+		xyz="fade"
+	>
+	</div>
+
+	<div
+		class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]"
+	>
+		<div
+			id="panel"
+			class="mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
+			xyz="fade small-1"
+		>
+			<div class="group relative h-12">
+				<SearchIcon
+					class="pointer-events-none absolute left-3.5 top-0 size-3.5 h-full text-slate-500"
+				/>
+
+				<input
+					class="h-full flex-auto appearance-none bg-transparent pl-10 pr-4 text-slate-900 outline-none placeholder:text-slate-500 focus:w-full focus:flex-none sm:text-sm dark:text-white"
+					type="search"
+					placeholder="Search..."
+					autocomplete="off"
+					spellcheck="false"
+				/>
+			</div>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	import { $searchOpen } from "../lib/stores";
+
+	const dialog = document.querySelector("dialog")!;
+	const search = document.querySelector("input")!;
+	const overlay = document.getElementById("overlay")!;
+	const panel = document.getElementById("panel")!;
+
+	function close() {
+		overlay.classList.add("xyz-out");
+		panel.classList.add("xyz-out");
+
+		setTimeout(() => {
+			overlay.classList.remove("xyz-out");
+			panel.classList.remove("xyz-out");
+
+			$searchOpen.set(false);
+		}, 200);
+	}
+
+	$searchOpen.listen((open) => {
+		dialog.open = open;
+		document.documentElement.style.overflow = open ? "hidden" : "auto";
+
+		if (open) {
+			overlay.classList.add("xyz-in");
+			panel.classList.add("xyz-in");
+
+			setTimeout(() => {
+				overlay.classList.remove("xyz-in");
+				panel.classList.remove("xyz-in");
+			}, 200);
+
+			search.focus();
+		}
+	});
+
+	dialog.addEventListener("click", (event) => {
+		if (!(event.target instanceof HTMLInputElement)) {
+			close();
+		}
+	});
+
+	search.addEventListener("input", () => {
+		// TODO
+	});
+
+	addEventListener("keydown", (event) => {
+		if (event.key === "Escape") close();
+	});
+</script>
+
+<style>
+	dialog {
+		--xyz-in-ease: theme("transitionTimingFunction.out");
+		--xyz-out-ease: theme("transitionTimingFunction.in");
+
+		--xyz-duration: 200ms;
+	}
+
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-decoration,
+	input[type="search"]::-webkit-search-results-button,
+	input[type="search"]::-webkit-search-results-decoration {
+		display: none;
+	}
+</style>

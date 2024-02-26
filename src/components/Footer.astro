@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import PageLink from "./PageLink.astro";
+
+const pathname = Astro.url.pathname.slice(1);
+
+async function getSiblingPages() {
+	try {
+		if (!pathname) return;
+
+		const [section] = pathname.split("/");
+
+		const entries = (
+			await getCollection("all", (entry) => entry.slug.startsWith(section))
+		).sort((a, b) => {
+			const aMeta = a.data.meta;
+			const bMeta = b.data.meta;
+
+			const index = aMeta?.index === bMeta?.index ? 0 : aMeta ? -1 : 1;
+			const order = (aMeta?.order ?? 0) - (bMeta?.order ?? 0);
+
+			return index || order;
+		});
+
+		const current = entries.findIndex((entry) => entry.slug === pathname);
+		if (current === -1) return;
+
+		const prev = entries[current - 1];
+		const next = entries[current + 1];
+
+		if (!prev && !next) return;
+
+		return { prev, next };
+	} catch {}
+}
+
+const siblings = await getSiblingPages();
+---
+
+<footer class="mx-auto w-full space-y-10 pb-6 pt-16 lg:mx-0">
+	<div class="flex">
+		{siblings?.prev && <PageLink page={siblings.prev} previous />}
+		{siblings?.next && <PageLink page={siblings.next} />}
+	</div>
+
+	<div
+		class="flex flex-col items-center justify-between gap-5 border-t border-slate-900/5 pt-6 sm:flex-row dark:border-white/10"
+	>
+		<p class="text-xs text-slate-600 dark:text-slate-400">
+			&copy; Copyright {new Date().getFullYear()}. All rights reserved.
+		</p>
+
+		<div class="flex gap-4"></div>
+	</div>
+</footer>
