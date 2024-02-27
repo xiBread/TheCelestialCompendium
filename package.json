@@ -30,7 +30,6 @@
 		]
 	},
 	"dependencies": {
-		"@animxyz/core": "^0.6.6",
 		"@astrojs/alpinejs": "^0.4.0",
 		"@astrojs/check": "^0.5.5",
 		"@astrojs/mdx": "^2.1.1",
