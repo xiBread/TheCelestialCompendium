@@ -8,6 +8,9 @@ dependencies:
   '@animxyz/core':
     specifier: ^0.6.6
     version: 0.6.6
+  '@astrojs/alpinejs':
+    specifier: ^0.4.0
+    version: 0.4.0(@types/alpinejs@3.13.6)(alpinejs@3.13.5)
   '@astrojs/check':
     specifier: ^0.5.5
     version: 0.5.5(prettier-plugin-astro@0.13.0)(prettier@3.2.5)(typescript@5.3.3)
@@ -23,6 +26,12 @@ dependencies:
   '@tailwindcss/typography':
     specifier: ^0.5.10
     version: 0.5.10(tailwindcss@3.4.1)
+  '@types/alpinejs':
+    specifier: ^3.13.6
+    version: 3.13.6
+  alpinejs:
+    specifier: ^3.13.5
+    version: 3.13.5
   astro:
     specifier: ^4.4.3
     version: 4.4.3(typescript@5.3.3)
@@ -32,12 +41,6 @@ dependencies:
   lucide-astro:
     specifier: ^0.336.0
     version: 0.336.0(astro@4.4.3)
-  nanoid:
-    specifier: ^5.0.6
-    version: 5.0.6
-  nanostores:
-    specifier: ^0.10.0
-    version: 0.10.0
   tailwind-variants:
     specifier: ^0.2.0
     version: 0.2.0(tailwindcss@3.4.1)
@@ -76,6 +79,16 @@ packages:
 
   /@animxyz/core@0.6.6:
     resolution: {integrity: sha512-NtAA/G0Gq3hzAiL6yuE/4U8IgHMPUl3MxbWUbhO443T9UCsf9rBY94P5aK79Zd+/529FeoNdDphIOcOZLsI2sA==}
+    dev: false
+
+  /@astrojs/alpinejs@0.4.0(@types/alpinejs@3.13.6)(alpinejs@3.13.5):
+    resolution: {integrity: sha512-68BY1CA0XuielLW3WdX2sfh9F4sSTnFqQ//IE9AditbiYJ77HJDb4uZx07pTFDtr1jOMU7lCvH+iS9gmNafM1g==}
+    peerDependencies:
+      '@types/alpinejs': ^3.0.0
+      alpinejs: ^3.0.0
+    dependencies:
+      '@types/alpinejs': 3.13.6
+      alpinejs: 3.13.5
     dev: false
 
   /@astrojs/check@0.5.5(prettier-plugin-astro@0.13.0)(prettier@3.2.5)(typescript@5.3.3):
@@ -911,6 +924,10 @@ packages:
       '@types/estree': 1.0.5
     dev: false
 
+  /@types/alpinejs@3.13.6:
+    resolution: {integrity: sha512-BMi1/2uQz7mp30VFn69SzjN7YwQ0QzE4Hn3RMBt4iMpQeasdbMiImv1f5yvK1bYmvjIyG/YFg+CgPxbjIXZk0g==}
+    dev: false
+
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
     dependencies:
@@ -1076,6 +1093,16 @@ packages:
     resolution: {integrity: sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ==}
     dev: false
 
+  /@vue/reactivity@3.1.5:
+    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
+    dependencies:
+      '@vue/shared': 3.1.5
+    dev: false
+
+  /@vue/shared@3.1.5:
+    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
+    dev: false
+
   /acorn-jsx@5.3.2(acorn@8.11.3):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1088,6 +1115,12 @@ packages:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+    dev: false
+
+  /alpinejs@3.13.5:
+    resolution: {integrity: sha512-1d2XeNGN+Zn7j4mUAKXtAgdc4/rLeadyTMWeJGXF5DzwawPBxwTiBhFFm6w/Ei8eJxUZeyNWWSD9zknfdz1kEw==}
+    dependencies:
+      '@vue/reactivity': 3.1.5
     dev: false
 
   /ansi-align@3.0.1:
@@ -3120,17 +3153,6 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: false
-
-  /nanoid@5.0.6:
-    resolution: {integrity: sha512-rRq0eMHoGZxlvaFOUdK1Ev83Bd1IgzzR+WJ3IbDJ7QOSdAxYjlurSPqFs9s4lJg29RT6nPwizFtJhQS6V5xgiA==}
-    engines: {node: ^18 || >=20}
-    hasBin: true
-    dev: false
-
-  /nanostores@0.10.0:
-    resolution: {integrity: sha512-Poy5+9wFXOD0jAstn4kv9n686U2BFw48z/W8lms8cS8lcbRz7BU20JxZ3e/kkKQVfRrkm4yLWCUA6GQINdvJCQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
     dev: false
 
   /napi-build-utils@1.0.2:

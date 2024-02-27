@@ -2,8 +2,24 @@
 import { Search as SearchIcon } from "lucide-astro";
 ---
 
-<dialog id="search" class="z-50">
-	<div class="overlay fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40" xyz="fade">
+<div
+	id="search"
+	class="z-50"
+	role="dialog"
+	x-data
+	x-show="$store.search.open"
+	@keydown.escape.window="$store.search.open = false"
+>
+	<div
+		class="overlay fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40"
+		x-show="$store.search.open"
+		x-transition:enter="transition ease-out duration 300"
+		x-transition:enter-start="opacity-0"
+		x-transition:enter-end="opacity-100"
+		x-transition:leave="transition ease-in duration-200"
+		x-transition:leave-start="opacity-100"
+		x-transition:leave-end="opacity-0"
+	>
 	</div>
 
 	<div
@@ -11,7 +27,13 @@ import { Search as SearchIcon } from "lucide-astro";
 	>
 		<div
 			class="panel mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
-			xyz="fade small-1"
+			x-show="$store.search.open"
+			x-transition:enter="transition ease-out duration-300"
+			x-transition:enter-start="opacity-0 scale-95"
+			x-transition:enter-end="opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-200"
+			x-transition:leave-start="opacity-100 scale-100"
+			x-transition:leave-end="opacity-0 scale-95"
 		>
 			<div class="group relative h-12">
 				<SearchIcon
@@ -28,57 +50,25 @@ import { Search as SearchIcon } from "lucide-astro";
 			</div>
 		</div>
 	</div>
-</dialog>
+</div>
 
 <script>
-	import { $searchOpen } from "../lib/stores";
-
-	const dialog = document.getElementById("search") as HTMLDialogElement;
-	const search = document.querySelector("input")!;
-	const overlay = document.querySelector("#search > .overlay")!;
-	const panel = document.querySelector("#search .panel")!;
-
-	function close() {
-		overlay.classList.add("xyz-out");
-		panel.classList.add("xyz-out");
-
-		setTimeout(() => {
-			overlay.classList.remove("xyz-out");
-			panel.classList.remove("xyz-out");
-
-			$searchOpen.set(false);
-		}, 250);
-	}
-
-	$searchOpen.listen((open) => {
-		dialog.open = open;
-		document.documentElement.style.overflow = open ? "hidden" : "auto";
-
-		if (open) {
-			overlay.classList.add("xyz-in");
-			panel.classList.add("xyz-in");
-
-			setTimeout(() => {
-				overlay.classList.remove("xyz-in");
-				panel.classList.remove("xyz-in");
-			}, 200);
-
-			search.focus();
-		}
+	document.addEventListener("alpine:init", () => {
+		Alpine.effect(() => {
+			document.documentElement.style.overflow = Alpine.store("search").open
+				? "hidden"
+				: "auto";
+		});
 	});
 
-	dialog.addEventListener("click", (event) => {
+	document.getElementById("search")?.addEventListener("click", (event) => {
 		if (!(event.target instanceof HTMLInputElement)) {
-			close();
+			Alpine.store("search").open = false;
 		}
 	});
 
-	search.addEventListener("input", () => {
+	document.querySelector("input")?.addEventListener("input", () => {
 		// TODO
-	});
-
-	addEventListener("keydown", (event) => {
-		if (event.key === "Escape") close();
 	});
 </script>
 

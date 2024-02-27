@@ -71,5 +71,12 @@ const title = Astro.props.title
 
 		<MobileNavigation />
 		<Search />
+
+		<script>
+			document.addEventListener("alpine:init", () => {
+				Alpine.store("search", { open: false });
+				Alpine.store("mobileNav", { open: false });
+			});
+		</script>
 	</body>
 </html>

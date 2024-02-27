@@ -4,7 +4,8 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 
 <header
 	class="fixed inset-x-0 top-0 flex h-14 items-center justify-between gap-12 px-4 sm:px-6 lg:px-8"
-	data-mobile-nav-open="false"
+	x-data
+	x-bind:class="$store.mobileNav.open ? 'z-50 bg-white dark:bg-slate-950' : 'z-10 bg-white/[var(--bg-opacity-light)] backdrop-blur-sm transition lg:left-72 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur'"
 >
 	<div class="absolute inset-0 top-full h-px bg-slate-900/7.5 transition dark:bg-white/7.5"></div>
 
@@ -12,6 +13,7 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 		<button
 			class="search hidden h-8 w-full items-center gap-2 rounded-full bg-white pl-2 pr-3 text-sm text-slate-500 ring-1 ring-slate-900/10 transition-[box-shadow] hover:ring-slate-900/20 lg:flex dark:bg-white/5 dark:text-slate-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20"
 			type="button"
+			@click="$store.search.open = true"
 		>
 			<SearchIcon class="ml-1 size-3.5 text-current" />
 			Search&hellip;
@@ -21,10 +23,10 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 
 	<div class="flex items-center gap-5 lg:hidden">
 		<button
-			id="mobile-nav-btn"
 			class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
 			type="button"
 			aria-label="Toggle navigation"
+			@click="$store.mobileNav.open = !$store.mobileNav.open"
 		>
 			<Menu class="size-4 text-slate-900 dark:text-white" />
 		</button>
@@ -59,12 +61,8 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 </header>
 
 <script>
-	import { $mobileNavOpen, $searchOpen } from "../lib/stores";
-
 	const themeToggle = document.getElementById("theme-toggle");
 	const header = document.querySelector("header");
-	const searchButtons = document.querySelectorAll("button.search");
-	const menuButtons = document.querySelectorAll("#mobile-nav-btn");
 
 	themeToggle?.addEventListener("click", () => {
 		const theme = document.documentElement.getAttribute("data-theme") ?? "dark";
@@ -83,24 +81,4 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 		header?.style.setProperty("--bg-opacity-light", `${opacityLight}`);
 		header?.style.setProperty("--bg-opacity-dark", `${opacityDark}`);
 	});
-
-	for (const button of searchButtons) {
-		button.addEventListener("click", () => $searchOpen.set(true));
-	}
-
-	for (const button of menuButtons) {
-		button.addEventListener("click", () => {
-			$mobileNavOpen.set(!$mobileNavOpen.get());
-		});
-	}
 </script>
-
-<style>
-	header[data-mobile-nav-open="true"] {
-		@apply z-50 bg-white dark:bg-slate-950;
-	}
-
-	header[data-mobile-nav-open="false"] {
-		@apply z-10 bg-white/[var(--bg-opacity-light)] backdrop-blur-sm transition lg:left-72 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur;
-	}
-</style>

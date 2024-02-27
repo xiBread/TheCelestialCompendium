@@ -6,3 +6,5 @@ declare namespace astroHTML.JSX {
 		xyz?: string;
 	}
 }
+
+declare var Alpine: import("alpinejs").Alpine;
