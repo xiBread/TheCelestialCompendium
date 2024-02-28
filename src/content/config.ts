@@ -8,7 +8,7 @@ const meta = z
 	.optional();
 
 export const collections = {
-	all: defineCollection({
+	archive: defineCollection({
 		type: "content",
 		schema: z.union([
 			z.object({

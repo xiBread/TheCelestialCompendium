@@ -6,11 +6,11 @@ import HeroPattern from "../components/HeroPattern.astro";
 import Layout from "../layouts/Layout.astro";
 
 interface Props {
-	entry: CollectionEntry<"all">;
+	entry: CollectionEntry<"archive">;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const entries = await getCollection("all");
+	const entries = await getCollection("archive");
 
 	return entries.map((entry) => {
 		const slug = entry.slug === "index" ? undefined : entry.slug;

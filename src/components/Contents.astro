@@ -8,7 +8,7 @@ interface Props {
 async function getHeadings() {
 	try {
 		const slug = Astro.url.pathname.slice(1);
-		const entry = await getEntry("all", slug);
+		const entry = await getEntry("archive", slug);
 
 		const mdx = await entry?.render();
 		const visible = mdx?.headings.filter((h) => h.depth < 4) ?? [];

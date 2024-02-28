@@ -11,7 +11,7 @@ async function getSiblingPages() {
 		const [section] = pathname.split("/");
 
 		const entries = (
-			await getCollection("all", (entry) => entry.slug.startsWith(section))
+			await getCollection("archive", (entry) => entry.slug.startsWith(section))
 		).sort((a, b) => {
 			const aMeta = a.data.meta;
 			const bMeta = b.data.meta;
