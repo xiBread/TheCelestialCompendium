@@ -1,37 +1,31 @@
 ---
-import { getCollection } from "astro:content";
+import type { MixedEntry } from "../content/config";
 import PageLink from "./PageLink.astro";
+
+interface Props {
+	entries: MixedEntry[];
+}
 
 const pathname = Astro.url.pathname.slice(1);
 
 async function getSiblingPages() {
-	try {
-		if (!pathname) return;
+	if (!pathname) return;
 
-		const [section] = pathname.split("/");
+	const [_, section] = pathname.split("/");
 
-		const entries = (
-			await getCollection("archive", (entry) => entry.slug.startsWith(section))
-		).sort((a, b) => {
-			const aMeta = a.data.meta;
-			const bMeta = b.data.meta;
+	const entries = Astro.props.entries
+		.filter((entry) => entry.id.startsWith(section))
+		.sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0));
 
-			const index = aMeta?.index === bMeta?.index ? 0 : aMeta ? -1 : 1;
-			const order = (aMeta?.order ?? 0) - (bMeta?.order ?? 0);
+	const current = entries.findIndex((entry) => `${entry.collection}/${entry.slug}` === pathname);
+	if (current === -1) return;
 
-			return index || order;
-		});
+	const prev = entries[current - 1];
+	const next = entries[current + 1];
 
-		const current = entries.findIndex((entry) => entry.slug === pathname);
-		if (current === -1) return;
+	if (!prev && !next) return;
 
-		const prev = entries[current - 1];
-		const next = entries[current + 1];
-
-		if (!prev && !next) return;
-
-		return { prev, next };
-	} catch {}
+	return { prev, next };
 }
 
 const siblings = await getSiblingPages();

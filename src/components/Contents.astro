@@ -1,50 +1,40 @@
 ---
-import { getEntry } from "astro:content";
+import type { MixedEntry } from "../content/config";
 
 interface Props {
+	entry: MixedEntry;
 	mobile?: boolean;
 }
 
-async function getHeadings() {
-	try {
-		const slug = Astro.url.pathname.slice(1);
-		const entry = await getEntry("archive", slug);
-
-		const mdx = await entry?.render();
-		const visible = mdx?.headings.filter((h) => h.depth < 4) ?? [];
-
-		const top = visible[0];
-		if (top.depth === 1) top.text = "Overview";
-
-		return visible;
-	} catch {}
-}
-
 const { mobile = false } = Astro.props;
-const headings = await getHeadings();
+
+const mdx = await Astro.props.entry.render();
+const headings = mdx.headings.filter((h) => h.depth < 4) ?? [];
+
+const top = headings[0];
+if (top.depth === 1) top.text = "Overview";
 ---
 
 {
-	headings &&
-		(mobile ? (
-			<></>
-		) : (
-			<table-of-contents class="hidden xl:sticky xl:top-10 xl:block xl:h-[calc(100dvh-2.5rem)] xl:w-64 xl:flex-none xl:overflow-y-auto xl:border-l xl:border-zinc-900/10 xl:pl-6 xl:pt-8 xl:dark:border-white/10">
-				<nav class="mt-2 hidden lg:block">
-					<span class="font-semibold">On this page</span>
+	mobile ? (
+		<div />
+	) : (
+		<table-of-contents class="hidden xl:sticky xl:top-10 xl:block xl:h-[calc(100dvh-2.5rem)] xl:w-64 xl:flex-none xl:overflow-y-auto xl:border-l xl:border-zinc-900/10 xl:pl-6 xl:pt-8 xl:dark:border-white/10">
+			<nav class="mt-2 hidden lg:block">
+				<span class="font-semibold">On this page</span>
 
-					<ul class="mt-4">
-						{headings.map((heading) => (
-							<li class:list={["mt-1", heading.depth === 3 && "ml-6"]}>
-								<a class="text-sm transition-colors" href={`#${heading.slug}`}>
-									{heading.text}
-								</a>
-							</li>
-						))}
-					</ul>
-				</nav>
-			</table-of-contents>
-		))
+				<ul class="mt-4">
+					{headings.map((heading) => (
+						<li class:list={["mt-1", heading.depth === 3 && "ml-6"]}>
+							<a class="text-sm transition-colors" href={`#${heading.slug}`}>
+								{heading.text}
+							</a>
+						</li>
+					))}
+				</ul>
+			</nav>
+		</table-of-contents>
+	)
 }
 
 <script src="../lib/contents.ts"></script>

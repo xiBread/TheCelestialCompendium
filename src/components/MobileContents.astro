@@ -1,6 +1,11 @@
 ---
 import { ChevronRight } from "lucide-astro";
+import type { MixedEntry } from "../content/config";
 import Contents from "./Contents.astro";
+
+interface Props {
+	entry: MixedEntry;
+}
 ---
 
 <mobile-toc>
@@ -28,7 +33,7 @@ import Contents from "./Contents.astro";
 		</summary>
 
 		<div>
-			<Contents mobile />
+			<Contents entry={Astro.props.entry} mobile />
 		</div>
 	</details>
 </mobile-toc>

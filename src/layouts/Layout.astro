@@ -9,13 +9,17 @@ import MobileContents from "../components/MobileContents.astro";
 import MobileNavigation from "../components/MobileNavigation.astro";
 import Navigation from "../components/Navigation.astro";
 import Search from "../components/Search.astro";
+import type { MixedEntry } from "../content/config";
 
 interface Props {
 	title?: string;
 	landing?: boolean;
+	// maybe find a better way to pass these around to avoid drilling
+	entry?: MixedEntry;
+	entries?: MixedEntry[];
 }
 
-const { title, landing } = Astro.props;
+const { title, landing, entry, entries = [] } = Astro.props;
 const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial Compendium";
 ---
 
@@ -38,7 +42,7 @@ const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial
 	<body class="flex min-h-full bg-white antialiased dark:bg-slate-950">
 		<div class="flex w-full flex-col">
 			<Header {landing} />
-			{!landing && <MobileContents />}
+			{!landing && <MobileContents entry={entry!} />}
 
 			<div class="relative flex w-full flex-auto justify-center">
 				{
@@ -53,7 +57,7 @@ const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial
 									</div>
 								</a>
 
-								<Navigation class="hidden lg:mt-10 lg:block" />
+								<Navigation class="hidden lg:mt-10 lg:block" {entries} />
 							</div>
 						</div>
 					)
@@ -78,14 +82,14 @@ const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial
 
 					<!-- <slot /> -->
 
-					<Footer />
+					<Footer {entries} />
 				</main>
 
-				{Astro.url.pathname !== "/" && <Contents />}
+				{entry && Astro.url.pathname !== "/" && <Contents {entry} />}
 			</div>
 		</div>
 
-		<MobileNavigation />
+		<MobileNavigation {entries} />
 		<Search />
 
 		<script>

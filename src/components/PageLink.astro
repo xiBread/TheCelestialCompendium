@@ -1,15 +1,15 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { MixedEntry } from "../content/config";
 import Button from "./Button.astro";
 
 interface Props {
-	page: CollectionEntry<"archive">;
+	page: MixedEntry;
 	previous?: boolean;
 }
 
 const { page, previous = false } = Astro.props;
 
-const href = `/${page.slug}`;
+const href = `/${page.collection}/${page.slug}`;
 const type = previous ? "Previous" : "Next";
 const label = `${type}: ${page.data.title || page.data.name}`;
 ---

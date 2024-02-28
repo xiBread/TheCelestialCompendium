@@ -1,40 +1,24 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import type { MixedEntry } from "../content/config";
 import { remToPx } from "../lib/util";
 import TopLevelNav from "./TopLevelNav.astro";
 
 interface Props {
 	class?: string;
+	entries: MixedEntry[];
 }
 
 const { pathname } = Astro.url;
 
-const positions = [
-	"events",
-	"locations",
-	"factions",
-	// ...
-];
-
-const entries = (await getCollection("archive"))
+const groups = Astro.props.entries
 	.filter((entry) => !entry.data.meta?.index)
-	.sort((a, b) => {
-		const position =
-			positions.indexOf(a.slug.split("/")[0]) - positions.indexOf(b.slug.split("/")[0]);
-		const order = (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0);
+	.sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0))
+	.reduce<Record<string, MixedEntry[]>>((all, entry) => {
+		const section = entry.slug.split("/")[0];
+		(all[section] ??= []).push(entry);
 
-		return position || order;
-	});
-
-const groups =
-	pathname === "/"
-		? {}
-		: entries.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
-				const section = entry.slug.split("/")[0];
-				(all[section] ??= []).push(entry);
-
-				return all;
-			}, {});
+		return all;
+	}, {});
 ---
 
 <nav class={Astro.props.class}>
@@ -43,6 +27,7 @@ const groups =
 
 		{
 			Object.entries(groups).map(([section, entries], i) => {
+				const sectionHref = `/${entries[0].collection}/${section}`;
 				const activeIndex = entries.findIndex((entry) => `/${entry.slug}` === pathname);
 
 				return (
@@ -50,14 +35,14 @@ const groups =
 						<h2
 							class:list={[
 								"text-sm font-semibold capitalize",
-								`/${section}` === pathname
+								sectionHref === pathname
 									? "text-indigo-500 dark:text-indigo-400"
 									: "text-slate-900 dark:text-white",
 							]}
 						>
 							<a
 								class="decoration-indigo-500 underline-offset-2 hover:underline"
-								href={`/${section}`}
+								href={sectionHref}
 							>
 								{section}
 							</a>
@@ -85,7 +70,7 @@ const groups =
 
 							<ul role="list">
 								{entries.map((entry) => {
-									const href = `/${entry.slug}`;
+									const href = `/${entry.collection}/${entry.slug}`;
 									const active = href === pathname;
 
 									return (

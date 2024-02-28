@@ -1,6 +1,11 @@
 ---
+import type { MixedEntry } from "../content/config";
 import Header from "./Header.astro";
 import Navigation from "./Navigation.astro";
+
+interface Props {
+	entries: MixedEntry[];
+}
 ---
 
 <div
@@ -45,7 +50,7 @@ import Navigation from "./Navigation.astro";
 		x-transition:leave-start="translate-x-0"
 		x-transition:leave-end="-translate-x-full"
 	>
-		<Navigation />
+		<Navigation entries={Astro.props.entries} />
 	</div>
 </div>
 

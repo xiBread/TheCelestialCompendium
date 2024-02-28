@@ -1,18 +1,23 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntries } from "astro:content";
+import type { MixedEntry } from "../content/config";
 import Layout from "../layouts/Layout.astro";
 
 interface Props {
-	entry: CollectionEntry<"archive">;
+	entry: MixedEntry;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const entries = await getCollection("archive");
+	const all = await Promise.all([
+		getCollection("archive"),
+		getCollection("research"),
+		getCollection("beastiary"),
+	]);
 
-	return entries.map((entry) => {
-		const slug = entry.slug === "index" ? undefined : entry.slug;
+	return (all.flat() as MixedEntry[]).map((entry) => {
+		const slug =
+			entry.slug === "index" ? entry.collection : `${entry.collection}/${entry.slug}`;
 
 		return {
 			params: { slug },
@@ -21,9 +26,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 	});
 };
 
-const { Content } = await Astro.props.entry.render();
+const { entry } = Astro.props;
+
+const { Content } = await entry.render();
+const entries = (await getCollection(entry.collection as never)) as MixedEntry[];
 ---
 
-<Layout>
+<Layout {entry} {entries}>
 	<Content />
 </Layout>
