@@ -4,6 +4,7 @@ import Themes from "astro-themes";
 import Contents from "../components/Contents.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import MobileContents from "../components/MobileContents.astro";
 import MobileNavigation from "../components/MobileNavigation.astro";
 import Navigation from "../components/Navigation.astro";
 import Search from "../components/Search.astro";
@@ -36,6 +37,7 @@ const title = Astro.props.title
 	<body class="flex min-h-full bg-white antialiased dark:bg-slate-950">
 		<div class="flex w-full flex-col">
 			<Header />
+			<MobileContents />
 
 			<div class="relative flex w-full flex-auto justify-center">
 				<div class="hidden lg:relative lg:block lg:flex-none">
@@ -74,6 +76,7 @@ const title = Astro.props.title
 			document.addEventListener("alpine:init", () => {
 				Alpine.store("search", { open: false });
 				Alpine.store("mobileNav", { open: false });
+				Alpine.store("mobileToC", { open: false });
 			});
 		</script>
 	</body>

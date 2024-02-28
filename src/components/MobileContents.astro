@@ -1,1 +1,75 @@
-<!-- TODO -->
+---
+import { ChevronRight } from "lucide-astro";
+import Contents from "./Contents.astro";
+---
+
+<mobile-toc>
+	<details
+		id="mobile-toc"
+		class="fixed inset-x-0 top-14 z-40 flex h-12 items-center border-b border-slate-900/7.5 bg-white/[var(--bg-opacity-light)] px-4 backdrop-blur-sm transition sm:px-6 lg:left-72 lg:px-8 xl:hidden dark:border-white/7.5 dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur"
+		x-data
+		:open="$store.mobileToC.open"
+	>
+		<summary
+			class="flex h-full items-center"
+			role="button"
+			@click="$store.mobileToC.open = !$store.mobileToC.open"
+		>
+			<div
+				class="flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-900 transition hover:bg-slate-200 dark:bg-slate-800/40 dark:text-slate-400 dark:ring-1 dark:ring-inset dark:ring-slate-800 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+			>
+				On this page <ChevronRight
+					class="ml-1 size-3.5 transition-transform"
+					:class="$store.mobileToC.open && 'rotate-90'"
+				/>
+			</div>
+
+			<span id="current" class="ml-4 flex items-center text-sm font-medium">Overview</span>
+		</summary>
+
+		<div>
+			<Contents mobile />
+		</div>
+	</details>
+</mobile-toc>
+
+<script>
+	import { Contents } from "../lib/contents";
+
+	class MobileContents extends Contents {
+		public constructor() {
+			super();
+
+			const details = document.getElementById("mobile-toc") as HTMLDetailsElement | null;
+			if (!details) return;
+
+			const close = () => (Alpine.store("mobileToC").open = false);
+
+			for (const a of details.querySelectorAll("a")) {
+				a.addEventListener("click", close);
+			}
+
+			addEventListener("click", (event) => {
+				if (!details.contains(event.target as Node)) close();
+			});
+
+			addEventListener("keydown", (event) => {
+				if (event.key === "Escape" && details.open) {
+					const focused = details.contains(document.activeElement);
+					close();
+
+					if (focused) details.querySelector("summary")?.focus();
+				}
+			});
+		}
+
+		protected override set current(anchor: HTMLAnchorElement) {
+			super.current = anchor;
+
+			const span = document.getElementById("current");
+			if (span) span.textContent = anchor.textContent;
+		}
+	}
+
+	customElements.define("mobile-toc", MobileContents);
+</script>

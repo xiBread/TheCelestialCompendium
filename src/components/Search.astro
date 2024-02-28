@@ -11,7 +11,7 @@ import { Search as SearchIcon } from "lucide-astro";
 	@keydown.escape.window="$store.search.open = false"
 >
 	<div
-		class="overlay fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40"
+		class="fixed inset-0 bg-slate-400/25 backdrop-blur-sm dark:bg-black/40"
 		x-show="$store.search.open"
 		x-transition:enter="transition ease-out duration 300"
 		x-transition:enter-start="opacity-0"
@@ -26,7 +26,7 @@ import { Search as SearchIcon } from "lucide-astro";
 		class="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]"
 	>
 		<div
-			class="panel mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
+			class="mx-auto transform-gpu overflow-hidden rounded-lg bg-slate-50 shadow-xl ring-1 ring-slate-900/7.5 sm:max-w-xl dark:bg-slate-900 dark:ring-slate-800"
 			x-show="$store.search.open"
 			x-transition:enter="transition ease-out duration-300"
 			x-transition:enter-start="opacity-0 scale-95"

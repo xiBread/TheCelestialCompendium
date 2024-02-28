@@ -1,7 +1,8 @@
 declare module "alpinejs" {
 	export interface Stores {
-		mobileNav: { open: boolean };
 		search: { open: boolean };
+		mobileNav: { open: boolean };
+		mobileToC: { open: boolean };
 	}
 }
 
