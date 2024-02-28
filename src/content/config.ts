@@ -23,4 +23,10 @@ export const collections = {
 			}),
 		]),
 	}),
+	research: defineCollection({
+		type: "content",
+	}),
+	beastiary: defineCollection({
+		type: "content",
+	}),
 };

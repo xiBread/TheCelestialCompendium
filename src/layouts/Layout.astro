@@ -4,6 +4,7 @@ import Themes from "astro-themes";
 import Contents from "../components/Contents.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import HeroPattern from "../components/HeroPattern.astro";
 import MobileContents from "../components/MobileContents.astro";
 import MobileNavigation from "../components/MobileNavigation.astro";
 import Navigation from "../components/Navigation.astro";
@@ -11,11 +12,11 @@ import Search from "../components/Search.astro";
 
 interface Props {
 	title?: string;
+	landing?: boolean;
 }
 
-const title = Astro.props.title
-	? `${Astro.props.title} - The Celestial Compendium`
-	: "The Celestial Compendium";
+const { title, landing } = Astro.props;
+const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial Compendium";
 ---
 
 <html class="h-full scroll-pt-20" lang="en">
@@ -29,38 +30,53 @@ const title = Astro.props.title
 		<link rel="preconnect" href="https://rsms.me/inter" />
 		<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
-		<title>{title}</title>
+		<title>{headTitle}</title>
 
 		<Themes defaultTheme="dark" />
 	</head>
 
 	<body class="flex min-h-full bg-white antialiased dark:bg-slate-950">
 		<div class="flex w-full flex-col">
-			<Header />
-			<MobileContents />
+			<Header {landing} />
+			{!landing && <MobileContents />}
 
 			<div class="relative flex w-full flex-auto justify-center">
-				<div class="hidden lg:relative lg:block lg:flex-none">
-					<div class="absolute right-0 h-full w-px bg-slate-900/10 dark:bg-white/10">
-					</div>
+				{
+					!landing && (
+						<div class="hidden lg:relative lg:block lg:flex-none">
+							<div class="absolute right-0 h-full w-px bg-slate-900/10 dark:bg-white/10" />
 
-					<div
-						class="sticky top-0 h-dvh overflow-y-auto overflow-x-hidden px-6 pb-8 pt-4 lg:w-72"
-					>
-						<a class="hidden lg:block" href="/" aria-label="Home">
-							<div class="h-6 text-lg font-bold text-slate-900 dark:text-white">
-								The Celestial Compendium
+							<div class="sticky top-0 h-dvh overflow-y-auto overflow-x-hidden px-6 pb-8 pt-4 lg:w-72">
+								<a class="hidden lg:block" href="/" aria-label="Home">
+									<div class="h-6 text-lg font-bold text-slate-900 dark:text-white">
+										The Celestial Compendium
+									</div>
+								</a>
+
+								<Navigation class="hidden lg:mt-10 lg:block" />
 							</div>
-						</a>
-
-						<Navigation class="hidden lg:mt-10 lg:block" />
-					</div>
-				</div>
+						</div>
+					)
+				}
 
 				<main
-					class="min-w-0 max-w-2xl flex-auto px-4 py-16 sm:px-6 lg:max-w-none lg:px-10 xl:px-16"
+					class:list={[
+						"min-w-0 max-w-2xl flex-auto px-4 py-16 sm:px-6 lg:px-10 xl:px-16",
+						landing ? "lg:max-w-4xl" : "lg:max-w-none",
+					]}
 				>
-					<slot />
+					<article
+						class:list={["flex flex-col pb-6 xl:pt-12", landing ? "pt-14" : "pt-20"]}
+					>
+						<div
+							class="prose flex-auto dark:prose-invert [html_:where(&>*)]:mx-auto [html_:where(&>*)]:max-w-2xl [html_:where(&>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&>*)]:lg:max-w-3xl [html_:where(&>*)]:xl:max-w-4xl"
+						>
+							<HeroPattern />
+							<slot />
+						</div>
+					</article>
+
+					<!-- <slot /> -->
 
 					<Footer />
 				</main>

@@ -26,12 +26,15 @@ const entries = (await getCollection("archive"))
 		return position || order;
 	});
 
-const groups = entries.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
-	const section = entry.slug.split("/")[0];
-	(all[section] ??= []).push(entry);
+const groups =
+	pathname === "/"
+		? {}
+		: entries.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
+				const section = entry.slug.split("/")[0];
+				(all[section] ??= []).push(entry);
 
-	return all;
-}, {});
+				return all;
+			}, {});
 ---
 
 <nav class={Astro.props.class}>
