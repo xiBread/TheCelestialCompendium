@@ -1,5 +1,6 @@
 ---
 import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
+import TopLevelNav from "./TopLevelNav.astro";
 ---
 
 <header
@@ -36,25 +37,39 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 		</a>
 	</div>
 
-	<div class="flex gap-4">
-		<div class="contents lg:hidden">
-			<button
-				class="search flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 lg:hidden dark:hover:bg-white/5"
-				type="button"
-				aria-label="Search entries"
-			>
-				<SearchIcon class="size-4 text-slate-900 dark:text-white" />
-			</button>
+	<div class="flex items-center gap-5">
+		<nav class="hidden md:block">
+			<ul class="flex items-center gap-8" role="list">
+				<TopLevelNav linkClass="leading-5" />
+			</ul>
+		</nav>
+
+		<div
+			class="hidden md:block md:h-5 md:w-px md:bg-slate-900/10 md:dark:bg-white/15"
+			role="separator"
+		>
 		</div>
 
-		<button
-			id="theme-toggle"
-			type="button"
-			class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
-		>
-			<Sun class="size-4 text-slate-900 dark:hidden" />
-			<Moon class="hidden size-4 text-white dark:block" />
-		</button>
+		<div class="flex gap-4">
+			<div class="contents lg:hidden">
+				<button
+					class="search flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 lg:hidden dark:hover:bg-white/5"
+					type="button"
+					aria-label="Search entries"
+				>
+					<SearchIcon class="size-4 text-slate-900 dark:text-white" />
+				</button>
+			</div>
+
+			<button
+				id="theme-toggle"
+				type="button"
+				class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
+			>
+				<Sun class="size-4 text-slate-900 dark:hidden" />
+				<Moon class="hidden size-4 text-white dark:block" />
+			</button>
+		</div>
 	</div>
 </header>
 

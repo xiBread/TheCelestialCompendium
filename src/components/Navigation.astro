@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import { remToPx } from "../lib/util";
+import TopLevelNav from "./TopLevelNav.astro";
 
 export interface Props {
 	class?: string;
@@ -35,12 +36,14 @@ const groups = entries.reduce<Record<string, CollectionEntry<"all">[]>>((all, en
 
 <nav class={Astro.props.class}>
 	<ul role="list">
+		<TopLevelNav class="md:hidden" linkClass="block py-1" />
+
 		{
-			Object.entries(groups).map(([section, entries]) => {
+			Object.entries(groups).map(([section, entries], i) => {
 				const activeIndex = entries.findIndex((entry) => `/${entry.slug}` === pathname);
 
 				return (
-					<li class="relative mt-6 first:mt-0">
+					<li class:list={["relative mt-6", i === 0 && "md:mt-0"]}>
 						<h2
 							class:list={[
 								"text-sm font-semibold capitalize",

@@ -1,0 +1,36 @@
+---
+export interface Props {
+	class?: string;
+	linkClass?: string;
+}
+
+const navItems = [
+	{ label: "Archive", href: "/" },
+	{ label: "Research", href: "/research" },
+	{ label: "Beastiary", href: "/beastiary" },
+];
+---
+
+{
+	navItems.map((item) => {
+		const current = (/(\/(?:\w+)?)/.exec(Astro.url.pathname)?.[1] ?? "") === item.href;
+
+		return (
+			<li class={Astro.props.class}>
+				<a
+					class:list={[
+						"text-sm transition",
+						current
+							? "text-indigo-500 dark:text-indigo-400"
+							: "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white",
+						Astro.props.linkClass,
+					]}
+					href={item.href}
+					aria-current={current}
+				>
+					{item.label}
+				</a>
+			</li>
+		);
+	})
+}
