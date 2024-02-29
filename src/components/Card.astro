@@ -1,0 +1,102 @@
+---
+import GridPattern, { type Props as GridPatternProps } from "./GridPattern.astro";
+
+interface Props {
+	name: string;
+	description: string;
+	href: string;
+	pattern: Omit<GridPatternProps, "x" | "width" | "height">;
+	icon(props: Record<string, unknown>): unknown;
+}
+
+const { name, description, href, pattern, icon: Icon } = Astro.props;
+const style = {
+	maskImage: "radial-gradient(180px at var(--mouse-x) var(--mouse-y), white, transparent)",
+};
+---
+
+<div
+	class="card group relative flex rounded-2xl bg-slate-50 transition-shadow hover:shadow-md hover:shadow-slate-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5"
+>
+	<div class="pointer-events-none">
+		<div
+			class="absolute inset-0 rounded-2xl transition duration-300 [mask-image:linear-gradient(white,transparent)] group-hover:opacity-50"
+		>
+			{
+				(
+					// @ts-ignore
+					<GridPattern
+						class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5 dark:fill-white/1 dark:stroke-white/2.5"
+						x="50%"
+						width={72}
+						height={56}
+						{...pattern}
+					/>
+				)
+			}
+		</div>
+
+		<div
+			class="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#e2d7ed] to-[#dfeffb] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#352c51] dark:to-[#2c405a]"
+			{style}
+		>
+		</div>
+
+		<div
+			class="absolute inset-0 rounded-2xl opacity-0 mix-blend-overlay transition duration-300 group-hover:opacity-100"
+			{style}
+		>
+			{
+				(
+					// @ts-ignore
+					<GridPattern
+						class="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/50 stroke-black/70 dark:fill-white/2.5 dark:stroke-white/10"
+						x="50%"
+						width={72}
+						height={56}
+						{...pattern}
+					/>
+				)
+			}
+		</div>
+	</div>
+
+	<div
+		class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-slate-900/7.5 group-hover:ring-slate-900/10 dark:ring-white/10 dark:group-hover:ring-white/20"
+	>
+	</div>
+
+	<div class="relative rounded-2xl px-4 pb-4 pt-20">
+		<div
+			class="flex h-7 w-7 items-center justify-center rounded-full bg-slate-900/5 ring-1 ring-slate-900/25 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 group-hover:ring-slate-900/25 dark:bg-white/7.5 dark:ring-white/15 dark:group-hover:bg-indigo-300/10 dark:group-hover:ring-indigo-400"
+		>
+			<Icon
+				class="size-4 fill-slate-700/10 stroke-slate-700 transition-colors duration-300 group-hover:stroke-slate-900 dark:fill-white/10 dark:stroke-slate-400 dark:group-hover:fill-indigo-300/10 dark:group-hover:stroke-indigo-400"
+			/>
+		</div>
+
+		<h3 class="mt-4 text-sm font-semibold leading-7 text-slate-900 dark:text-white">
+			<a {href}>
+				<span class="absolute inset-0 rounded-2xl"></span>
+				{name}
+			</a>
+		</h3>
+
+		<p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+			{description}
+		</p>
+	</div>
+</div>
+
+<script>
+	const cards = document.querySelectorAll<HTMLDivElement>(".card");
+
+	for (const card of cards) {
+		card.addEventListener("mousemove", (event) => {
+			const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+
+			card.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+			card.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+		});
+	}
+</script>

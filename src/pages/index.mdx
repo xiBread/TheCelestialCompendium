@@ -4,12 +4,63 @@ meta:
   index: true
 ---
 
+import { Archive, Library, PawPrint } from "lucide-astro";
+import Card from "../components/Card.astro";
 import Layout from "../layouts/Layout.astro";
+
+export const categories = [
+	{
+		name: "Archive",
+		description:
+			"Eiusmod reprehenderit ex consequat proident incididunt pariatur dolore laborum proident tempor.",
+		href: "/archive",
+		pattern: {
+			y: 16,
+			squares: [
+				[0, 1],
+				[1, 3],
+			],
+		},
+		icon: Archive,
+	},
+	{
+		name: "Research",
+		description:
+			"Velit ut nulla dolore exercitation sit esse qui Lorem minim laboris nisi laborum enim.",
+		href: "/research",
+		pattern: {
+			y: -6,
+			squares: [
+				[-1, 2],
+				[2, 3],
+			],
+		},
+		icon: Library,
+	},
+	{
+		name: "Beastiary",
+		description:
+			"Eu reprehenderit est sint in laborum esse irure nisi magna aliquip proident sint anim fugiat.",
+		pattern: {
+			y: 22,
+			squares: [[0, 1]],
+		},
+		icon: PawPrint,
+	},
+];
 
 <Layout landing>
 # {frontmatter.title}
 
 Excepteur sunt Lorem anim incididunt Lorem incididunt ullamco. Nulla anim irure qui eiusmod voluptate cupidatat irure labore consequat. Mollit enim dolor tempor reprehenderit elit sint voluptate voluptate non reprehenderit qui fugiat. Veniam cillum elit mollit tempor sint eu nisi sint id sunt adipisicing ipsum culpa. Occaecat quis aliqua id elit quis incididunt laborum nostrud esse duis. Ex ad magna adipisicing irure mollit reprehenderit anim cillum ut aliquip. Fugiat non id nulla do laborum eiusmod id.
+
+<div class="my-16 xl:max-w-none">
+  ## Categories
+
+  <div class="not-prose mt-4 grid grid-cols-1 gap-8 border-t border-slate-900/10 pt-10 sm:grid-cols-3 dark:border-white/10">
+    {categories.map((category) => <Card {...category} />)}
+  </div>
+</div>
 
 Pariatur magna duis occaecat minim culpa elit in incididunt irure. Irure veniam do enim proident duis enim qui ut. Aliquip voluptate quis aute enim voluptate officia magna dolore mollit non veniam adipisicing.
 
