@@ -8,6 +8,7 @@ import { Search as SearchIcon } from "lucide-astro";
 	role="dialog"
 	x-data
 	x-show="$store.search.open"
+	@keydown.slash.prevent.window="$store.search.open = true"
 	@keydown.escape.window="$store.search.open = false"
 >
 	<div
@@ -53,11 +54,16 @@ import { Search as SearchIcon } from "lucide-astro";
 </div>
 
 <script>
+	const input = document.querySelector("input[type='search']") as HTMLInputElement;
+
 	document.addEventListener("alpine:init", () => {
 		Alpine.effect(() => {
-			document.documentElement.style.overflow = Alpine.store("search").open
-				? "hidden"
-				: "auto";
+			const { open } = Alpine.store("search");
+
+			document.documentElement.style.overflow = open ? "hidden" : "auto";
+
+			// Race condition workaround
+			if (open) setTimeout(() => input.focus());
 		});
 	});
 
@@ -67,7 +73,7 @@ import { Search as SearchIcon } from "lucide-astro";
 		}
 	});
 
-	document.querySelector("input")?.addEventListener("input", () => {
+	input.addEventListener("input", () => {
 		// TODO
 	});
 </script>
