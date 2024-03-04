@@ -4,16 +4,16 @@ meta:
   index: true
 ---
 
-import { Archive, Library, PawPrint } from "lucide-astro";
+import { Globe, Library, Boxes } from "lucide-astro";
 import Card from "../components/Card.astro";
 import Layout from "../layouts/Layout.astro";
 
 export const categories = [
 	{
-		name: "Archive",
+		name: "Nexus",
 		description:
 			"Eiusmod reprehenderit ex consequat proident incididunt pariatur dolore laborum proident tempor.",
-		href: "/archive",
+		href: "/nexus",
 		pattern: {
 			y: 16,
 			squares: [
@@ -21,7 +21,7 @@ export const categories = [
 				[1, 3],
 			],
 		},
-		icon: Archive,
+		icon: Globe,
 	},
 	{
 		name: "Research",
@@ -38,14 +38,15 @@ export const categories = [
 		icon: Library,
 	},
 	{
-		name: "Beastiary",
+		name: "Registry",
 		description:
 			"Eu reprehenderit est sint in laborum esse irure nisi magna aliquip proident sint anim fugiat.",
+		href: "/registry",
 		pattern: {
 			y: 22,
 			squares: [[0, 1]],
 		},
-		icon: PawPrint,
+		icon: Boxes,
 	},
 ];
 
