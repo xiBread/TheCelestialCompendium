@@ -13,4 +13,14 @@ export const collections = {
 				.optional(),
 		}),
 	}),
+	data: defineCollection({
+		type: "data",
+		schema: z.array(
+			z.object({
+				name: z.string(),
+				date: z.string(),
+				description: z.string(),
+			}),
+		),
+	}),
 };
