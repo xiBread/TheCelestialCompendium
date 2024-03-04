@@ -13,13 +13,13 @@ import Search from "../components/Search.astro";
 
 interface Props {
 	title?: string;
-	landing?: boolean;
+	fullscreen?: boolean;
 	// maybe find a better way to pass these around to avoid drilling
 	entry?: CollectionEntry<"archive">;
 	entries?: CollectionEntry<"archive">[];
 }
 
-const { title, landing, entry, entries = [] } = Astro.props;
+const { title, fullscreen, entry, entries = [] } = Astro.props;
 const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial Compendium";
 ---
 
@@ -41,12 +41,12 @@ const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial
 
 	<body class="flex min-h-full bg-white antialiased dark:bg-slate-950">
 		<div class="flex w-full flex-col">
-			<Header {landing} />
-			{!landing && <MobileContents entry={entry!} />}
+			<Header {fullscreen} />
+			{!fullscreen && <MobileContents entry={entry!} />}
 
 			<div class="relative flex w-full flex-auto justify-center">
 				{
-					!landing && (
+					!fullscreen && (
 						<div class="hidden lg:relative lg:block lg:flex-none">
 							<div class="absolute right-0 h-full w-px bg-slate-900/10 dark:bg-white/10" />
 
@@ -66,11 +66,11 @@ const headTitle = title ? `${title} - The Celestial Compendium` : "The Celestial
 				<main
 					class:list={[
 						"min-w-0 max-w-2xl flex-auto px-4 py-16 sm:px-6 lg:px-10 xl:px-16",
-						landing ? "lg:max-w-4xl" : "lg:max-w-none",
+						fullscreen ? "lg:max-w-4xl" : "lg:max-w-none",
 					]}
 				>
 					<article
-						class:list={["flex flex-col pb-6 xl:pt-12", landing ? "pt-14" : "pt-20"]}
+						class:list={["flex flex-col pb-6 xl:pt-12", fullscreen ? "pt-14" : "pt-20"]}
 					>
 						<div
 							class="prose flex-auto dark:prose-invert [html_:where(&>*)]:mx-auto [html_:where(&>*)]:max-w-2xl [html_:where(&>*)]:lg:mx-[calc(50%-min(50%,theme(maxWidth.lg)))] [html_:where(&>*)]:lg:max-w-3xl [html_:where(&>*)]:xl:max-w-4xl"

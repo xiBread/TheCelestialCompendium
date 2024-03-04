@@ -3,19 +3,19 @@ import { Menu, Moon, Sun, Search as SearchIcon } from "lucide-astro";
 import TopLevelNav from "./TopLevelNav.astro";
 
 interface Props {
-	landing?: boolean;
+	fullscreen?: boolean;
 }
 
-const { landing } = Astro.props;
+const { fullscreen } = Astro.props;
 ---
 
 <header
 	class="fixed inset-x-0 top-0 flex h-14 items-center justify-between gap-12 border-b border-slate-900/7.5 px-4 sm:px-6 lg:px-8 dark:border-white/7.5"
 	x-data
-	:class={`$store.mobileNav.open ? 'z-50 bg-white dark:bg-slate-950' : 'z-10 bg-white/[var(--bg-opacity-light)] backdrop-blur-sm transition ${landing ? "" : "lg:left-72"} dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur'`}
+	:class={`$store.mobileNav.open ? 'z-50 bg-white dark:bg-slate-950' : 'z-10 bg-white/[var(--bg-opacity-light)] backdrop-blur-sm transition ${fullscreen ? "" : "lg:left-72"} dark:bg-slate-950/[var(--bg-opacity-dark)] dark:backdrop-blur'`}
 >
 	{
-		landing && (
+		fullscreen && (
 			<a class="hidden lg:block" href="/" aria-label="Home">
 				<div class="font-bold text-slate-900 sm:text-lg dark:text-white">
 					The Celestial Compendium
@@ -40,7 +40,7 @@ const { landing } = Astro.props;
 		<button
 			class:list={[
 				"flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10",
-				landing ? "md:hidden" : "lg:hidden",
+				fullscreen ? "md:hidden" : "lg:hidden",
 			]}
 			type="button"
 			aria-label="Toggle navigation"
