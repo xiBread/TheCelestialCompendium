@@ -11,7 +11,7 @@ const { page, previous = false } = Astro.props;
 
 const href = `/${page.slug}`;
 const type = previous ? "Previous" : "Next";
-const label = `${type}: ${page.data.title || page.data.name}`;
+const label = `${type}: ${page.data.title}`;
 ---
 
 <div class:list={["flex flex-col gap-3", previous ? "items-start" : "ml-auto items-end"]}>
@@ -25,6 +25,6 @@ const label = `${type}: ${page.data.title || page.data.name}`;
 		tab-index={-1}
 		aria-hidden="true"
 	>
-		{page.data.title || page.data.name}
+		{page.data.title}
 	</a>
 </div>
