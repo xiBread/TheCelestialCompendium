@@ -1,9 +1,9 @@
 ---
-import type { MixedEntry } from "../content/config";
+import { getCollection, type CollectionEntry } from "astro:content";
 import PageLink from "./PageLink.astro";
 
 interface Props {
-	entries: MixedEntry[];
+	entries: CollectionEntry<"archive">[];
 }
 
 const pathname = Astro.url.pathname.slice(1);
@@ -11,13 +11,13 @@ const pathname = Astro.url.pathname.slice(1);
 async function getSiblingPages() {
 	if (!pathname) return;
 
-	const [_, section] = pathname.split("/");
+	const section = pathname.split("/").slice(0, 2).join("/");
 
-	const entries = Astro.props.entries
-		.filter((entry) => entry.id.startsWith(section))
-		.sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0));
+	const entries = (
+		await getCollection("archive", (entry) => entry.slug.startsWith(section))
+	).sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0));
 
-	const current = entries.findIndex((entry) => `${entry.collection}/${entry.slug}` === pathname);
+	const current = entries.findIndex((entry) => entry.slug === pathname);
 	if (current === -1) return;
 
 	const prev = entries[current - 1];

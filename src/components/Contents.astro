@@ -1,8 +1,8 @@
 ---
-import type { MixedEntry } from "../content/config";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-	entry: MixedEntry;
+	entry: CollectionEntry<"archive">;
 	mobile?: boolean;
 }
 

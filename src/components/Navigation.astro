@@ -1,20 +1,20 @@
 ---
-import type { MixedEntry } from "../content/config";
+import type { CollectionEntry } from "astro:content";
 import { remToPx } from "../lib/util";
 import TopLevelNav from "./TopLevelNav.astro";
 
 interface Props {
 	class?: string;
-	entries: MixedEntry[];
+	entries: CollectionEntry<"archive">[];
 }
 
 const { pathname } = Astro.url;
 
 const groups = Astro.props.entries
-	.filter((entry) => !entry.data.meta?.index)
 	.sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0))
-	.reduce<Record<string, MixedEntry[]>>((all, entry) => {
-		const section = entry.slug.split("/")[0];
+	.filter((entry) => !entry.data.meta?.index)
+	.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
+		const section = entry.slug.split("/")[1];
 		(all[section] ??= []).push(entry);
 
 		return all;
@@ -27,7 +27,7 @@ const groups = Astro.props.entries
 
 		{
 			Object.entries(groups).map(([section, entries], i) => {
-				const sectionHref = `/${entries[0].collection}/${section}`;
+				const sectionHref = `/${entries[0].slug.split("/").slice(0, -1).join("/")}`;
 				const activeIndex = entries.findIndex((entry) => `/${entry.slug}` === pathname);
 
 				return (
@@ -70,7 +70,7 @@ const groups = Astro.props.entries
 
 							<ul role="list">
 								{entries.map((entry) => {
-									const href = `/${entry.collection}/${entry.slug}`;
+									const href = `/${entry.slug}`;
 									const active = href === pathname;
 
 									return (

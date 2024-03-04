@@ -1,19 +1,4 @@
-import { type Render, defineCollection, z } from "astro:content";
-
-export interface MixedEntry {
-	id: string;
-	slug: string;
-	collection: string;
-	data: {
-		title?: string;
-		name?: string;
-		meta?: {
-			index: boolean;
-			order?: number;
-		};
-	};
-	render(): Render[".mdx"];
-}
+import { defineCollection, z } from "astro:content";
 
 const meta = z
 	.object({
@@ -37,11 +22,5 @@ export const collections = {
 				meta,
 			}),
 		]),
-	}),
-	research: defineCollection({
-		type: "content",
-	}),
-	beastiary: defineCollection({
-		type: "content",
 	}),
 };
