@@ -15,7 +15,7 @@ async function getSiblingPages() {
 
 	const entries = (
 		await getCollection("archive", (entry) => entry.slug.startsWith(section))
-	).sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0));
+	).sort((a, b) => a.data.meta.order - b.data.meta.order);
 
 	const current = entries.findIndex((entry) => entry.slug === pathname);
 	if (current === -1) return;

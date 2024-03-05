@@ -11,8 +11,8 @@ interface Props {
 const { pathname } = Astro.url;
 
 const groups = Astro.props.entries
-	.sort((a, b) => (a.data.meta?.order ?? 0) - (b.data.meta?.order ?? 0))
-	.filter((entry) => !entry.data.meta?.index)
+	.sort((a, b) => a.data.meta.order - b.data.meta.order)
+	.filter((entry) => !entry.data.meta.index)
 	.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
 		const section = entry.slug.split("/")[1];
 		(all[section] ??= []).push(entry);

@@ -9,9 +9,9 @@ export const collections = {
 			meta: z
 				.object({
 					index: z.boolean().default(false),
-					order: z.number().optional(),
+					order: z.number().default(Infinity),
 				})
-				.optional(),
+				.default({}),
 			/**
 			 * byr -> birth year
 			 * hgt -> height
