@@ -17,7 +17,7 @@ const { fullscreen } = Astro.props;
 	{
 		fullscreen && (
 			<a class="hidden items-center lg:flex" href="/" aria-label="Home">
-				<img class="mr-2 size-6" src="logo.svg" />
+				<img class="mr-3 size-6" src="logo.svg" />
 
 				<div class="font-bold text-slate-900 sm:text-lg dark:text-white">
 					The Celestial Compendium
@@ -51,7 +51,9 @@ const { fullscreen } = Astro.props;
 			<Menu class="size-4 text-slate-900 dark:text-white" />
 		</button>
 
-		<a href="/" aria-label="Home">
+		<a class="flex items-center" href="/" aria-label="Home">
+			<img class="mr-3 size-6" src="logo.svg" />
+
 			<div class="font-bold text-slate-900 sm:text-lg dark:text-white">
 				The Celestial Compendium
 			</div>
