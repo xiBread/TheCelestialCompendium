@@ -5,10 +5,33 @@ export const collections = {
 		type: "content",
 		schema: z.object({
 			title: z.string(),
+			description: z.string().optional(),
 			meta: z
 				.object({
 					index: z.boolean().default(false),
 					order: z.number().optional(),
+				})
+				.optional(),
+			/**
+			 * byr -> birth year
+			 * hgt -> height
+			 * wgt -> weight
+			 * hcl -> hair color
+			 * ecl -> eye color
+			 */
+			profile: z
+				.object({
+					aliases: z.array(z.string()).optional(),
+					sex: z.enum(["M", "F"]).optional(),
+					age: z.number().optional(),
+					byr: z.string().optional(),
+					hgt: z
+						.string()
+						.regex(/\d\d?'(?:\d\d?")?/)
+						.optional(),
+					wgt: z.string().optional(),
+					hcl: z.string().optional(),
+					ecl: z.string().optional(),
 				})
 				.optional(),
 		}),
