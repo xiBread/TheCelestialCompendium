@@ -28,12 +28,14 @@ const { data: events } = await getEntry("data", "timeline");
 							<div class="ml-8 grow border-b border-slate-900/10 pb-12 group-last-of-type:border-none group-last-of-type:pb-0 md:ml-0 dark:border-white/10">
 								<h2 class="mt-0 pb-6 text-3xl font-bold">{event.name}</h2>
 
-								<img
-									class="not-prose mb-8 w-full rounded-xl"
-									src={event.image.src}
-									width="600"
-									height="300"
-								/>
+								<div class="mb-8 rounded-lg from-indigo-400/30 to-transparent dark:bg-gradient-to-b dark:p-px">
+									<img
+										class="not-prose w-full"
+										src={event.image.src}
+										width="600"
+										height="300"
+									/>
+								</div>
 
 								<p class="max-w-none">{event.description}</p>
 							</div>
