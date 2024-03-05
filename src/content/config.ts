@@ -15,12 +15,14 @@ export const collections = {
 	}),
 	data: defineCollection({
 		type: "data",
-		schema: z.array(
-			z.object({
-				name: z.string(),
-				date: z.string(),
-				description: z.string(),
-			}),
-		),
+		schema: ({ image }) =>
+			z.array(
+				z.object({
+					name: z.string(),
+					date: z.string(),
+					image: image(),
+					description: z.string(),
+				}),
+			),
 	}),
 };

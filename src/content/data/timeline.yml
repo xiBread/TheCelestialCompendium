@@ -1,8 +1,10 @@
 - name: Cataclysm
-  date: Sep 8, 2099
+  date: PD 262.2189
+  image: $assets/img/timeline/cataclysm.jpg
   description: >-
     Consequat sunt cupidatat cillum Lorem excepteur magna sit anim aliquip. Officia esse aliquip labore ut velit ipsum exercitation dolore esse occaecat elit consectetur velit elit. Ut est laborum nulla ex.
 - name: Cosmic Dawn
-  date: E0
+  date: A0
+  image: $assets/img/timeline/cosmic-dawn.jpg
   description: >-
     Nostrud culpa consequat qui velit deserunt tempor occaecat sit id. Nisi commodo pariatur est laborum ex commodo veniam adipisicing. Eu esse cillum amet eiusmod id consequat dolor. Reprehenderit ad quis cupidatat nisi. Ut sunt exercitation eiusmod enim dolor pariatur ut.
