@@ -16,7 +16,9 @@ const { fullscreen } = Astro.props;
 >
 	{
 		fullscreen && (
-			<a class="hidden lg:block" href="/" aria-label="Home">
+			<a class="hidden items-center lg:flex" href="/" aria-label="Home">
+				<img class="mr-2 size-6" src="logo.svg" />
+
 				<div class="font-bold text-slate-900 sm:text-lg dark:text-white">
 					The Celestial Compendium
 				</div>
@@ -97,7 +99,7 @@ const { fullscreen } = Astro.props;
 	const html = document.documentElement;
 
 	themeToggle?.addEventListener("click", () => {
-		const theme = document.documentElement.getAttribute("data-theme") ?? "dark";
+		const theme = html.getAttribute("data-theme") ?? "dark";
 		const detail = theme === "dark" ? "light" : "dark";
 
 		document.dispatchEvent(new CustomEvent("set-theme", { detail }));
