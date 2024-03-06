@@ -10,15 +10,11 @@ interface Props {
 
 const { pathname } = Astro.url;
 
-const groups = Astro.props.entries
+const entries = Astro.props.entries
 	.sort((a, b) => a.data.meta.order - b.data.meta.order)
-	.filter((entry) => !entry.data.meta.index)
-	.reduce<Record<string, CollectionEntry<"archive">[]>>((all, entry) => {
-		const section = entry.slug.split("/")[1];
-		(all[section] ??= []).push(entry);
+	.filter((entry) => !entry.data.meta.index);
 
-		return all;
-	}, {});
+const groups = Object.groupBy(entries, (entry) => entry.slug.split("/")[1]);
 ---
 
 <nav class={Astro.props.class}>
@@ -27,8 +23,8 @@ const groups = Astro.props.entries
 
 		{
 			Object.entries(groups).map(([section, entries], i) => {
-				const sectionHref = `/${entries[0].slug.split("/").slice(0, -1).join("/")}`;
-				const activeIndex = entries.findIndex((entry) => `/${entry.slug}` === pathname);
+				const sectionHref = `/${entries![0].slug.split("/").slice(0, -1).join("/")}`;
+				const activeIndex = entries!.findIndex((entry) => `/${entry.slug}` === pathname);
 
 				return (
 					<li class:list={["relative mt-6", i === 0 && "md:mt-0"]}>
@@ -69,7 +65,7 @@ const groups = Astro.props.entries
 							)}
 
 							<ul role="list">
-								{entries.map((entry) => {
+								{entries!.map((entry) => {
 									const href = `/${entry.slug}`;
 									const active = href === pathname;
 
