@@ -31,23 +31,23 @@
 	},
 	"dependencies": {
 		"@astrojs/alpinejs": "^0.4.0",
-		"@astrojs/check": "^0.5.5",
+		"@astrojs/check": "^0.5.6",
 		"@astrojs/mdx": "^2.1.1",
 		"@astrojs/tailwind": "^5.1.0",
 		"@leeoniya/ufuzzy": "^1.0.14",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/alpinejs": "^3.13.6",
-		"alpinejs": "^3.13.5",
-		"astro": "^4.4.3",
+		"alpinejs": "^3.13.6",
+		"astro": "^4.4.13",
 		"astro-themes": "^0.2.5",
-		"lucide-astro": "^0.336.0",
+		"lucide-astro": "^0.344.0",
 		"tailwind-variants": "^0.2.0",
 		"tailwindcss": "^3.4.1",
-		"typescript": "^5.3.3"
+		"typescript": "^5.4.2"
 	},
 	"devDependencies": {
 		"prettier": "^3.2.5",
 		"prettier-plugin-astro": "^0.13.0",
-		"prettier-plugin-tailwindcss": "^0.5.11"
+		"prettier-plugin-tailwindcss": "^0.5.12"
 	}
 }
