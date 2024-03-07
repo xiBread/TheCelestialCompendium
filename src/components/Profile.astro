@@ -1,0 +1,27 @@
+---
+// TODO: profile details + responsiveness
+
+import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
+
+// forced to use getEntry in order for the image to properly resolve into metadata
+// find a way to avoid this if possible
+const entry = await getEntry("archive", Astro.url.pathname.slice(1));
+if (!entry) throw new ReferenceError();
+
+const profile = entry.data.profile!;
+---
+
+<div>
+	<slot />
+
+	{
+		profile.portrait && (
+			<Image
+				class="float-right ml-8 mt-4 max-w-xs"
+				src={profile.portrait}
+				alt={entry.data.title}
+			/>
+		)
+	}
+</div>

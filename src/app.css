@@ -9,5 +9,5 @@
 }
 
 article img {
-	@apply rounded-lg shadow-md dark:border dark:border-white/5 dark:shadow-none;
+	@apply rounded-lg shadow-md dark:shadow-none;
 }
