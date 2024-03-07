@@ -26,18 +26,6 @@ const { fullscreen } = Astro.props;
 		)
 	}
 
-	<div class="hidden lg:block lg:max-w-md lg:flex-auto">
-		<button
-			class="hidden h-8 w-full items-center gap-2 rounded-full bg-white/65 pl-2 pr-3 text-sm text-slate-500 ring-1 ring-slate-900/10 transition-[box-shadow] hover:ring-slate-900/20 lg:flex dark:bg-white/5 dark:text-slate-400 dark:ring-inset dark:ring-white/10 dark:hover:ring-white/20"
-			type="button"
-			@click="$store.search.open = true"
-		>
-			<SearchIcon class="ml-1 size-3.5 text-current" />
-			Search&hellip;
-			<kbd class="ml-auto mr-0.5 text-2xs text-slate-400 dark:text-slate-500">/</kbd>
-		</button>
-	</div>
-
 	<div class="flex items-center gap-5 lg:hidden">
 		<button
 			class:list={[
@@ -74,20 +62,21 @@ const { fullscreen } = Astro.props;
 		</div>
 
 		<div class="flex gap-4">
-			<div class="contents lg:hidden">
-				<button
-					class="search flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 lg:hidden dark:hover:bg-white/5"
-					type="button"
-					aria-label="Search entries"
-				>
-					<SearchIcon class="size-4 text-slate-900 dark:text-white" />
-				</button>
-			</div>
+			<button
+				class="search flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/5"
+				title="Search entries (/)"
+				type="button"
+				aria-label="Search entries"
+			>
+				<SearchIcon class="size-4 text-slate-900 dark:text-white" />
+			</button>
 
 			<button
 				id="theme-toggle"
+				title="Toggle theme"
 				type="button"
 				class="flex items-center justify-center rounded-md p-1.5 transition hover:bg-slate-900/5 dark:hover:bg-white/10"
+				aria-label="Toggle theme"
 			>
 				<Sun class="size-4 text-slate-900 dark:hidden" />
 				<Moon class="hidden size-4 text-white dark:block" />
