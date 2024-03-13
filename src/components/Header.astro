@@ -67,6 +67,8 @@ const { fullscreen } = Astro.props;
 				title="Search entries (/)"
 				type="button"
 				aria-label="Search entries"
+				x-data
+				x-on:click="$store.search.open = true"
 			>
 				<SearchIcon class="size-4 text-slate-900 dark:text-white" />
 			</button>
